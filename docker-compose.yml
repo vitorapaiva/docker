@@ -1,0 +1,40 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.4"
+services:
+
+    dev_mysql:
+      build: phpdocker/mysql
+      container_name: dev_mysql
+      working_dir: /code
+      volumes:
+        - you-path\mysql:/var/lib/mysql #TODO: mudar para o caminho no seu computador
+      environment:
+        - MYSQL_ROOT_PASSWORD=teste
+        - MYSQL_DATABASE=teste
+        - MYSQL_USER=teste
+        - MYSQL_PASSWORD=teste
+      ports:
+        - "3306:3306"
+
+    webserver:
+      image: nginx
+      container_name: web
+      working_dir: /code
+      volumes:
+        - you-path:/code #TODO: mudar para o caminho no seu computador
+        - you-path\docker\phpdocker\nginx\nginx.conf:/etc/nginx/conf.d/default.conf #TODO: mudar para o caminho no seu computador
+        - you-path\docker\phpdocker\nginx\api.conf:/etc/nginx/sites-enabled/api.conf #TODO: mudar para o caminho no seu computador
+      ports:
+        - "8080:80"
+
+    php7:
+      build: phpdocker/php7-fpm
+      container_name: php7
+      working_dir: /code
+      volumes:
+        - you-path:/code #TODO: mudar para o caminho no seu computador
+        - you-path\docker\phpdocker\php7-fpm\php-ini-overrides.ini:/etc/php7.2/fpm/conf.d/99-overrides.ini #TODO: mudar para o caminho no seu computador
+      links:
+        - dev_mysql
