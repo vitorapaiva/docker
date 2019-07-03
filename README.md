@@ -1,7 +1,7 @@
 # docker
 Docker environment with PHP 7.3, MySQL and Nginx.
 
-#Instructions
+# Instructions
 
 - Install Docker;
 - Install Docker Composer;
